@@ -1,0 +1,6 @@
+﻿  main.cpp
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(82,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(117,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(118,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(119,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  testkonfigfree.vcxproj -> C:\Users\Barty\source\repos\testkonfigfree\x64\Debug\testkonfigfree.exe
