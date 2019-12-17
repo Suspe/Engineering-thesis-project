@@ -1,0 +1,18 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (testkonfigfree.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(85,32): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(86,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(103,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(104,26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(153,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(188,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(189,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(190,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(255,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(255,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(256,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(256,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(438,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(439,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(440,26): warning C4305: '=': truncation from 'double' to 'float'
+  testkonfigfree.vcxproj -> C:\Users\Barty\Desktop\praca_inz\Praca_inz\x64\Debug\praca_inz.exe
