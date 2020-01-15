@@ -1,37 +1,36 @@
 ﻿  main.cpp
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(89,27): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(107,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(157,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(192,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(193,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(194,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(259,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(259,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(260,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(260,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(262,69): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(262,32): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(263,69): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(263,32): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(265,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(265,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(266,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(266,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(268,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(268,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(269,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(269,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(396,38): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(482,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(483,28): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(484,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(486,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(487,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(488,26): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(490,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(491,28): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(492,27): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(494,29): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(495,28): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Barty\Desktop\01_hello_freeglut\main.cpp(496,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(97,27): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(115,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(165,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(200,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(201,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(202,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(267,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(267,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(268,66): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(268,31): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(270,69): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(270,32): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(271,69): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(271,32): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(273,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(273,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(274,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(274,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(276,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(276,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(277,72): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(277,33): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(487,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(488,28): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(489,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(491,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(492,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(493,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(495,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(496,28): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(497,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(499,29): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(500,28): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Barty\Desktop\praca_inz\Praca_inz\testkonfigfree\main.cpp(501,27): warning C4305: '=': truncation from 'double' to 'float'
   testkonfigfree.vcxproj -> C:\Users\Barty\Desktop\praca_inz\Praca_inz\x64\Debug\praca_inz.exe

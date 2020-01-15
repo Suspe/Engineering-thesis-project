@@ -15,18 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Desktop\01_hello_freeglut\LUtil.cpp">
+    <ClCompile Include="Kalman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Desktop\01_hello_freeglut\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Desktop\01_hello_freeglut\LOpenGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Desktop\01_hello_freeglut\LUtil.h">
+    <ClInclude Include="Kalman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
