@@ -17,6 +17,10 @@
 #include <iomanip>
 #include "opencv2/video/tracking.hpp"
 #include "opencv2/highgui.hpp"
+#include <fstream>
+
+//std::fstream plik1;
+//std::fstream plik2;
 
 
 //int counter = 0;//co 10 ramka wyswietla wspolrzedne
@@ -27,6 +31,7 @@ const int width = 512;
 const int height = 424;
 const int colorwidth = 1920;
 const int colorheight = 1080;
+bool instrumentSet = 0;
 
 // We'll be using buffer objects to store the kinect point cloud
 GLuint vboId;
@@ -58,8 +63,7 @@ double SpeedR, SpeedL;				// Instantaneous speed of hands
 sf::Sound left;						// SFML audio object for sound playing
 sf::Sound right;
 
-sf::SoundBuffer rimBuffer;			// Buffers storing wav files
-sf::SoundBuffer snareBuffer; 
+sf::SoundBuffer rimBuffer;			// Buffers storing wav files 
 sf::SoundBuffer ophatBuffer;
 sf::SoundBuffer clhatBuffer;
 
@@ -70,7 +74,7 @@ public:
 	CameraSpacePoint centerPoint;
 	sf::SoundBuffer buf;
 	double height = 0.1;
-	double width = 0.6;
+	double width = 0.45;
 	double length = 4;
 
 	boolean recentlyPlayedR = 0;		// Boolean to be set after playing, and reset once hand leaves instrument area
@@ -97,7 +101,7 @@ public:
 								left.setVolume(abs(1000 * SpeedL * 200));
 								left.setPitch(1);// - 0.2 * SpeedL));
 								left.play();
-								std::cout << "ZAGRANO LEWA Z PREDKOSCIA: " << SpeedL << std::endl;
+								//std::cout << "ZAGRANO LEWA Z PREDKOSCIA: " << SpeedL << std::endl;
 								recentlyPlayedL = 1;
 							}
 			}
@@ -115,7 +119,7 @@ public:
 								right.setVolume(abs(1000 * SpeedR * 200));
 								right.setPitch(1);// - 0.2 * SpeedR);
 								right.play();
-								std::cout << "ZAGRANO PRAWA" << std::endl;
+								//std::cout << "ZAGRANO PRAWA" << std::endl;
 								recentlyPlayedR = 1;
 							}
 			}
@@ -125,7 +129,7 @@ public:
 			}
 		}
 	}
-}rim, kick, ophat, clhat;
+}rim, ophat, clhat;
 
 bool initKinect() {
 	if (FAILED(GetDefaultKinectSensor(&sensor))) {
@@ -227,7 +231,6 @@ void getBodyData(IMultiSourceFrame* frame) {
 			break;
 		}
 	}
-
 	if (bodyframe) bodyframe->Release();
 }
 
@@ -263,12 +266,40 @@ void rotateCamera() {
 	angle += 0.001;
 }
 
+void setInstrumentAreas() {
+	
+		if (tracked) {
+			static std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+			static std::chrono::high_resolution_clock::time_point current;
+			current = std::chrono::high_resolution_clock::now();
+
+			auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(current - start).count();
+			if (elapsed >= 5) {
+				//joints[JointType_SpineShoulder].Position;
+
+				rim.centerPoint.X = joints[JointType_SpineShoulder].Position.X + 0.3;
+				rim.centerPoint.Y = joints[JointType_SpineShoulder].Position.Y - 0.45;
+				rim.centerPoint.Z = joints[JointType_SpineShoulder].Position.Z - 0.2;
+
+				clhat.centerPoint.X = joints[JointType_SpineShoulder].Position.X - 0.3;
+				clhat.centerPoint.Y = joints[JointType_SpineShoulder].Position.Y - 0.45;
+				clhat.centerPoint.Z = joints[JointType_SpineShoulder].Position.Z - 0.2;
+
+				ophat.centerPoint.X = joints[JointType_SpineShoulder].Position.X + 0.67;
+				ophat.centerPoint.Y = joints[JointType_SpineShoulder].Position.Y;
+				ophat.centerPoint.Z = joints[JointType_SpineShoulder].Position.Z - 0.2;
+				instrumentSet = 1;
+			}
+		}
+}
+
+void kickDetection() {
+	//if()
+}
+
 void drawInstruments() {
 	glVertex3f(rim.centerPoint.X - rim.width / 2, rim.centerPoint.Y + rim.height / 2, rim.centerPoint.Z);
 	glVertex3f(rim.centerPoint.X + rim.width / 2, rim.centerPoint.Y + rim.height / 2, rim.centerPoint.Z);
-
-	glVertex3f(kick.centerPoint.X - kick.width / 2, kick.centerPoint.Y + kick.height / 2, kick.centerPoint.Z);
-	glVertex3f(kick.centerPoint.X + kick.width / 2, kick.centerPoint.Y + kick.height / 2, kick.centerPoint.Z);
 
 	glVertex3f(clhat.centerPoint.X - clhat.width / 2, clhat.centerPoint.Y + clhat.height / 2, clhat.centerPoint.Z);
 	glVertex3f(clhat.centerPoint.X + clhat.width / 2, clhat.centerPoint.Y + clhat.height / 2, clhat.centerPoint.Z);
@@ -372,7 +403,6 @@ void drawKinectData() {
 }
 
 
-
 void measureSpeed(double &SpeedR, double &SpeedL)
 {
 	static double prevR = filteredR(1);
@@ -429,13 +459,21 @@ void initializeGL() {
 
 void draw() {
 	drawKinectData();
+
+	if(!instrumentSet)
+		setInstrumentAreas();
+	drawInstruments();
 	measureSpeed(SpeedR, SpeedL);
 
 	filteredL = kalman(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterL);
 	filteredR = kalman(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterR);
+	
 
+	std::cout << "X: " << joints[JointType_SpineShoulder].Position.X - joints[JointType_HandLeft].Position.X << " Y: " << joints[JointType_SpineShoulder].Position.Y - joints[JointType_HandLeft].Position.Y << " Z: "
+			  << joints[JointType_SpineShoulder].Position.Z - joints[JointType_HandLeft].Position.Z << std::endl;
+	//plik1 << joints[JointType_HandLeft].Position.X << "," << joints[JointType_HandLeft].Position.Y << "," << joints[JointType_HandLeft].Position.Z << std::endl;
+	//plik2 << filteredL(0) << "," << filteredL(1) << "," << filteredL(2) << std::endl;
 	rim.detectCollision(left, right, rimBuffer);
-	kick.detectCollision(left, right, snareBuffer);
 	ophat.detectCollision(left, right, ophatBuffer);
 	clhat.detectCollision(left, right, clhatBuffer);
 
@@ -480,29 +518,26 @@ int main(int argc, char* argv[]) {
 	initializeGL();
 
 	rimBuffer.loadFromFile("rim.wav");
-	snareBuffer.loadFromFile("kick.wav");
 	ophatBuffer.loadFromFile("ophat.wav");
 	clhatBuffer.loadFromFile("clhat.wav");
 
-	kick.centerPoint.X = 0.58;
-	kick.centerPoint.Y = -0.33;
-	kick.centerPoint.Z = 1.22;
+	rim.centerPoint.X = 0;
+	rim.centerPoint.Y = 0;
+	rim.centerPoint.Z = 0;
 
-	rim.centerPoint.X = -0.42;
-	rim.centerPoint.Y = -0.33;
-	rim.centerPoint.Z = 1.22;
+	clhat.centerPoint.X = 0;
+	clhat.centerPoint.Y = 0;
+	clhat.centerPoint.Z = 0;
 
-	clhat.centerPoint.X = 0.7;
-	clhat.centerPoint.Y = 0.02;
-	clhat.centerPoint.Z = 1.1;
-
-	ophat.centerPoint.X = -0.55;
-	ophat.centerPoint.Y = 0.02;
-	ophat.centerPoint.Z = 1.1;
-
+	ophat.centerPoint.X = 0;
+	ophat.centerPoint.Y = 0;
+	ophat.centerPoint.Z = 0;
 
 	kalman_init(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterL);
 	kalman_init(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterR);
+
+	//plik1.open("unfiltered.txt", std::ios::out | std::ios::app);
+	//plik2.open("filtered.txt", std::ios::out | std::ios::app);
 
 	// Main loop
 	execute();
