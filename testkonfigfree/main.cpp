@@ -49,23 +49,27 @@ cv::Mat_<float> filteredL(3,1);
 cv::Mat_<float> filteredR(3,1);
 
 // Kalman filter Variables
-cv::KalmanFilter FilterL(6, 3, 0);
-cv::KalmanFilter FilterR(6, 3, 0); 
-
+cv::KalmanFilter FilterPosL(6, 3, 0);
+cv::KalmanFilter FilterPosR(6, 3, 0); 
+cv::KalmanFilter FilterSpeedL(2, 1, 0);
+cv::KalmanFilter FilterSpeedR(2, 1, 0);
 // Kinect Variables
 IKinectSensor* sensor;             // Kinect sensor
 IMultiSourceFrameReader* reader;   // Kinect data source
 ICoordinateMapper* mapper;         // Converts between depth, color, and 3d coordinates
 
 // Drum Variables 
-double SpeedR, SpeedL;				// Instantaneous speed of hands
+double SpeedR, SpeedL;				   // Instantaneous speed of hands
+cv::Mat_<float> filteredSpeedR, filteredSpeedL;
 
+// SFML Variables
 sf::Sound left;						// SFML audio object for sound playing
 sf::Sound right;
-
+sf::Sound foot;
 sf::SoundBuffer rimBuffer;			// Buffers storing wav files 
 sf::SoundBuffer ophatBuffer;
 sf::SoundBuffer clhatBuffer;
+sf::SoundBuffer kickBuffer;
 
 class instrument {
 
@@ -94,42 +98,61 @@ public:
 
 			if (recentlyPlayedL == 0) {
 				if (SpeedL < 0)
-					if ((filteredL(0) > centerPoint.X - width / 2) && (filteredL(0) < centerPoint.X + width / 2))
-						if ((filteredL(1) < centerPoint.Y + height / 2) && (filteredL(1) > centerPoint.Y - height / 2))
-							if ((filteredL(2) < centerPoint.Z + length / 2) && (filteredL(2) > centerPoint.Z - length / 2)) {
+					if ((filteredL(0) >= centerPoint.X - width / 2) && (filteredL(0) <= centerPoint.X + width / 2))
+						if ((filteredL(1) <= centerPoint.Y + height / 2) && (filteredL(1) >= centerPoint.Y - height / 2))
+							if ((filteredL(2) <= centerPoint.Z + length / 2) && (filteredL(2) >= centerPoint.Z - length / 2)) {
 								left.setBuffer(buf);
-								left.setVolume(abs(1000 * SpeedL * 200));
-								left.setPitch(1);// - 0.2 * SpeedL));
+								left.setVolume(abs(1000 * filteredSpeedL(0) * 33));
+								left.setPitch(1 + 6*  abs(filteredSpeedL(0)));
 								left.play();
-								//std::cout << "ZAGRANO LEWA Z PREDKOSCIA: " << SpeedL << std::endl;
+								std::cout << "ZAGRANO LEWA Z PREDKOSCIA: " << filteredSpeedL(0) * 1000<< std::endl;
 								recentlyPlayedL = 1;
 							}
 			}
 			else {
-				if (filteredL(1) > centerPoint.Y + 0.6 * height)
+				if (filteredL(1) >= centerPoint.Y + 0.6 * height)
 					recentlyPlayedL = 0;
 			}
 
 			if (recentlyPlayedR == 0) {
 				if (SpeedR < 0)
-					if ((filteredR(0) > centerPoint.X - width / 2) && (filteredR(0) < centerPoint.X + width / 2))
-						if ((filteredR(1) < centerPoint.Y + height / 2) && (filteredR(1) > centerPoint.Y - height / 2))
-							if ((filteredR(2) < centerPoint.Z + length / 2) && (filteredR(2) > centerPoint.Z - length / 2)) {
+					if ((filteredR(0) >= centerPoint.X - width / 2) && (filteredR(0) <= centerPoint.X + width / 2))
+						if ((filteredR(1) <= centerPoint.Y + height / 2) && (filteredR(1) >= centerPoint.Y - height / 2))
+							if ((filteredR(2) <= centerPoint.Z + length / 2) && (filteredR(2) >= centerPoint.Z - length / 2)) {
 								right.setBuffer(buf);
-								right.setVolume(abs(1000 * SpeedR * 200));
-								right.setPitch(1);// - 0.2 * SpeedR);
+								right.setVolume(abs(1000 * filteredSpeedR(0) * 33));
+								right.setPitch(1 +  6*abs(filteredSpeedR(0)));
 								right.play();
-								//std::cout << "ZAGRANO PRAWA" << std::endl;
+								std::cout << "ZAGRANO PRAWA Z PREDKOSCIA: " << filteredSpeedR(0) * 1000 << std::endl;
 								recentlyPlayedR = 1;
 							}
 			}
 			else {
-				if (filteredR(1) > centerPoint.Y + 0.6 * height)
+				if (filteredR(1) >= centerPoint.Y + 0.6 * height)
 					recentlyPlayedR = 0;
 			}
 		}
 	}
 }rim, ophat, clhat;
+
+class kick {
+
+public:
+
+	sf::SoundBuffer buf;
+	CameraSpacePoint kneeRest;
+	boolean recentlyPlayed = 1;
+
+	void detectCollision() {
+		if (joints[JointType_KneeRight].Position.Y - kneeRest.Y >= 0.020)
+			recentlyPlayed = 0;
+		if (joints[JointType_KneeRight].Position.Y - kneeRest.Y <= 0.01 && recentlyPlayed == 0){
+			foot.play();
+			recentlyPlayed = 1;
+		}
+	}
+
+}kick;
 
 bool initKinect() {
 	if (FAILED(GetDefaultKinectSensor(&sensor))) {
@@ -275,7 +298,10 @@ void setInstrumentAreas() {
 
 			auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(current - start).count();
 			if (elapsed >= 5) {
-				//joints[JointType_SpineShoulder].Position;
+
+				kick.kneeRest.X = joints[JointType_KneeRight].Position.X;
+				kick.kneeRest.Y = joints[JointType_KneeRight].Position.Y;
+				kick.kneeRest.Z = joints[JointType_KneeRight].Position.Z;
 
 				rim.centerPoint.X = joints[JointType_SpineShoulder].Position.X + 0.3;
 				rim.centerPoint.Y = joints[JointType_SpineShoulder].Position.Y - 0.45;
@@ -293,9 +319,7 @@ void setInstrumentAreas() {
 		}
 }
 
-void kickDetection() {
-	//if()
-}
+
 
 void drawInstruments() {
 	glVertex3f(rim.centerPoint.X - rim.width / 2, rim.centerPoint.Y + rim.height / 2, rim.centerPoint.Z);
@@ -306,6 +330,9 @@ void drawInstruments() {
 
 	glVertex3f(ophat.centerPoint.X - ophat.width / 2, ophat.centerPoint.Y + ophat.height / 2, ophat.centerPoint.Z);
 	glVertex3f(ophat.centerPoint.X + ophat.width / 2, ophat.centerPoint.Y + ophat.height / 2, ophat.centerPoint.Z);
+
+	glVertex3f(kick.kneeRest.X - 0.01, kick.kneeRest.Y + 0.022, kick.kneeRest.Z);
+	glVertex3f(kick.kneeRest.X + 0.01, kick.kneeRest.Y + 0.022, kick.kneeRest.Z);
 }
 
 void drawKinectData() {
@@ -343,6 +370,7 @@ void drawKinectData() {
 		const CameraSpacePoint& lt = joints[JointType_ThumbLeft].Position;
 		const CameraSpacePoint& rt = joints[JointType_ThumbRight].Position;
 		const CameraSpacePoint& neck = joints[JointType_Neck].Position;
+		const CameraSpacePoint& rk = joints[JointType_KneeRight].Position;
 
 
 		//if (counter == 10) {
@@ -390,6 +418,9 @@ void drawKinectData() {
 		glVertex3f(re.X, re.Y, re.Z);
 		glVertex3f(rs.X, rs.Y, rs.Z);
 
+		glVertex3f(rk.X + 0.01, rk.Y, rk.Z);
+		glVertex3f(rk.X - 0.01, rk.Y, rk.Z);
+
 		//instrument area 
 		drawInstruments();
 		
@@ -402,15 +433,18 @@ void drawKinectData() {
 	
 }
 
-
 void measureSpeed(double &SpeedR, double &SpeedL)
 {
+	//static double prevR = joints[JointType_HandLeft].Position.Y;
+	//static double prevL = joints[JointType_HandRight].Position.Y;
 	static double prevR = filteredR(1);
 	static double prevL = filteredL(1);
 	static std::chrono::high_resolution_clock::time_point prevTime = std::chrono::high_resolution_clock::now();
 
 	double LH = filteredL(1);
 	double RH = filteredR(1);
+	//double LH = joints[JointType_HandLeft].Position.Y;
+	//double RH = joints[JointType_HandRight].Position.Y;
 
 	std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - prevTime).count();
@@ -422,14 +456,15 @@ void measureSpeed(double &SpeedR, double &SpeedL)
 	if (RH != prevR)
 		if (elapsed != 0)
 			SpeedR = (RH - prevR) / (elapsed);
+	
+//	std::cout <<  "SpeedR: " << std::setprecision(5) <<  1000*1000 * SpeedR <<  std::endl;
 
-	//std::cout <<  "SpeedR: " << std::setprecision(5) <<  10000 * SpeedR << " SpeedL: " << std::setprecision(5) << 10000 * SpeedL << std::endl;
-
+	//prevR = joints[JointType_HandRight].Position.Y;
+	//prevL = joints[JointType_HandLeft].Position.Y;
 	prevR = filteredR(1);
 	prevL = filteredL(1);
 	prevTime = std::chrono::high_resolution_clock::now();
 }
-
 
 void initializeGL() {
 
@@ -465,20 +500,26 @@ void draw() {
 	drawInstruments();
 	measureSpeed(SpeedR, SpeedL);
 
-	filteredL = kalman(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterL);
-	filteredR = kalman(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterR);
-	
+	filteredL = kalman(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterPosL);
+	filteredR = kalman(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterPosR);
+	filteredSpeedL = kalman1D(SpeedL, FilterSpeedL);
+	filteredSpeedR = kalman1D(SpeedR, FilterSpeedR);
+	//std::cout << filteredSpeedR(0) * 1000 << std::endl;
 
-	std::cout << "X: " << joints[JointType_SpineShoulder].Position.X - joints[JointType_HandLeft].Position.X << " Y: " << joints[JointType_SpineShoulder].Position.Y - joints[JointType_HandLeft].Position.Y << " Z: "
-			  << joints[JointType_SpineShoulder].Position.Z - joints[JointType_HandLeft].Position.Z << std::endl;
+	//std::cout << joints[JointType_KneeRight].Position.Y - kick.kneeRestY << std::endl;
+	//std::cout << "X: " << joints[JointType_SpineShoulder].Position.X - joints[JointType_HandLeft].Position.X << " Y: " << joints[JointType_SpineShoulder].Position.Y - joints[JointType_HandLeft].Position.Y << " Z: "
+	//		  << joints[JointType_SpineShoulder].Position.Z - joints[JointType_HandLeft].Position.Z << std::endl;
 	//plik1 << joints[JointType_HandLeft].Position.X << "," << joints[JointType_HandLeft].Position.Y << "," << joints[JointType_HandLeft].Position.Z << std::endl;
 	//plik2 << filteredL(0) << "," << filteredL(1) << "," << filteredL(2) << std::endl;
+
 	rim.detectCollision(left, right, rimBuffer);
 	ophat.detectCollision(left, right, ophatBuffer);
 	clhat.detectCollision(left, right, clhatBuffer);
+	kick.detectCollision();
 
 	glutSwapBuffers();
 }
+
 #if 0
 void mojexecute() {
 	while (1) {
@@ -495,7 +536,6 @@ void mojexecute() {
 }
 
 #endif // 0
-
 
 void execute() {
 	glutMainLoop();
@@ -520,6 +560,14 @@ int main(int argc, char* argv[]) {
 	rimBuffer.loadFromFile("rim.wav");
 	ophatBuffer.loadFromFile("ophat.wav");
 	clhatBuffer.loadFromFile("clhat.wav");
+	kickBuffer.loadFromFile("kick.wav");
+	foot.setBuffer(kickBuffer);
+	foot.setVolume(100);
+	foot.setPitch(1);
+
+	kick.kneeRest.X = 0;
+	kick.kneeRest.Y = 0;
+	kick.kneeRest.Z = 0;
 
 	rim.centerPoint.X = 0;
 	rim.centerPoint.Y = 0;
@@ -533,8 +581,10 @@ int main(int argc, char* argv[]) {
 	ophat.centerPoint.Y = 0;
 	ophat.centerPoint.Z = 0;
 
-	kalman_init(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterL);
-	kalman_init(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterR);
+	kalman_init(joints[JointType_HandLeft].Position.X, joints[JointType_HandLeft].Position.Y, joints[JointType_HandLeft].Position.Z, FilterPosL);
+	kalman_init(joints[JointType_HandRight].Position.X, joints[JointType_HandRight].Position.Y, joints[JointType_HandRight].Position.Z, FilterPosR);
+	kalman_init1D(SpeedL, FilterSpeedL);
+	kalman_init1D(SpeedR, FilterSpeedR);
 
 	//plik1.open("unfiltered.txt", std::ios::out | std::ios::app);
 	//plik2.open("filtered.txt", std::ios::out | std::ios::app);
