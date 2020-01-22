@@ -18,7 +18,7 @@ void kalman_init(float &x, float &y, float &z, KalmanFilter &Filter) {
 
 	setIdentity(Filter.measurementMatrix);
 	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        //Kowariancja Q 
-	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-3));    //Kowariancja R 
+	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-2));    //Kowariancja R 
 	setIdentity(Filter.errorCovPost, Scalar::all(.1));
 }
 
@@ -31,7 +31,7 @@ void kalman_init1D(double& x, KalmanFilter& Filter) {
 
 	setIdentity(Filter.measurementMatrix);
 	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        //Kowariancja Q 
-	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-3));    //Kowariancja R wplywa na K - wzmocnienie kalmana
+	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-2));    //Kowariancja R wplywa na K - wzmocnienie kalmana
 	setIdentity(Filter.errorCovPost, Scalar::all(.1));
 }
 
