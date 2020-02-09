@@ -1,24 +1,27 @@
 #include "Kalman.h"
-#include <iostream>
-#include "opencv2/video/tracking.hpp"
-#include "opencv2/highgui.hpp"
 
 using namespace cv;
+
+// Kalman filter Variables
+KalmanFilter FilterPosL(6, 3, 0);
+KalmanFilter FilterPosR(6, 3, 0);
+KalmanFilter FilterSpeedL(2, 1, 0);
+KalmanFilter FilterSpeedR(2, 1, 0);
 
 void kalman_init(float &x, float &y, float &z, KalmanFilter &Filter) {
 	
 	Filter.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 0, 1, 0, 0,    0, 1, 0, 0, 1, 0,    0, 0, 1, 0, 0, 1,    0, 0, 0, 1, 0, 0,   0, 0, 0, 0, 1, 0,    0, 0, 0, 0, 0, 1);
 
-	Filter.statePre.at<float>(0) = x;        //Po³o¿enie x 
-	Filter.statePre.at<float>(1) = y;        //Po³o¿enie y 
-	Filter.statePre.at<float>(2) = z;        //Po³o¿enie z 
-	Filter.statePre.at<float>(3) = 0;        //Prêdkoœæ x 
-	Filter.statePre.at<float>(4) = 0;		 //Prêdkoœæ y
-	Filter.statePre.at<float>(5) = 0;		 //Prêdkoœæ z
+	Filter.statePre.at<float>(0) = x;        // Position x
+	Filter.statePre.at<float>(1) = y;        // Position y 
+	Filter.statePre.at<float>(2) = z;        // Position z
+	Filter.statePre.at<float>(3) = 0;        // Speed along x axis
+	Filter.statePre.at<float>(4) = 0;		 // Speed along y axis
+	Filter.statePre.at<float>(5) = 0;		 // Speed along z axis
 
 	setIdentity(Filter.measurementMatrix);
-	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        //Kowariancja Q 
-	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-2));    //Kowariancja R 
+	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        // Covariance Q 
+	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-3));    // Covariance R - influences K - Kalman's amplification
 	setIdentity(Filter.errorCovPost, Scalar::all(.1));
 }
 
@@ -26,12 +29,12 @@ void kalman_init1D(double& x, KalmanFilter& Filter) {
 
 	Filter.transitionMatrix = (Mat_<float>(2,2) << 1, 1, 0, 1);
 
-	Filter.statePre.at<float>(0) = x;        //Po³o¿enie x 
-	Filter.statePre.at<float>(1) = 0;        //Predkosc x
+	Filter.statePre.at<float>(0) = x;        // Position x
+	Filter.statePre.at<float>(1) = 0;        // Speed along x axis
 
 	setIdentity(Filter.measurementMatrix);
-	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        //Kowariancja Q 
-	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-2));    //Kowariancja R wplywa na K - wzmocnienie kalmana
+	setIdentity(Filter.processNoiseCov, Scalar::all(1e-5));        // Covariance Q 
+	setIdentity(Filter.measurementNoiseCov, Scalar::all(1e-3));    // Covariance R - influences K - Kalman's amplification
 	setIdentity(Filter.errorCovPost, Scalar::all(.1));
 }
 
