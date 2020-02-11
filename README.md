@@ -10,6 +10,7 @@ Used libraries:
 - SFML (audio module)
 - Kinect for Windows SDK 2.0 (to get sensor running, body tracking algorithm)
 - Freeglut (accessory visualization)
-- Visual Studio Community 
+
+Project has been developed in Visual Studio Community
 
 
