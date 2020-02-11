@@ -11,6 +11,7 @@ Used libraries:
 - Kinect for Windows SDK 2.0 (to get sensor running, body tracking algorithm)
 - Freeglut (accessory visualization)
 
-Project has been developed in Visual Studio Community
+Project has been developed in Visual Studio Community.
+Kinect 2.0 sensor is required for program to work for obvious reasons.
 
 
