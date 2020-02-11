@@ -1,4 +1,4 @@
-# Praca_inz
+# Engineering thesis project
 Budowa systemu wirtualnej perkusji z wykorzystaniem czujnika głębi.
  
 Postawionym zadaniem jest budowa wirtualnej perkusji. Ma ona realizować generowanie dźwięku w czasie rzeczywistym, zależnego od ruchów dłoni/nogi użytkownika, tak jak ma to miejsce w przypadku rzeczywistego instrumentu. Założeniem jest wykorzystanie do tego celu czujnika głębi Kinect 2.0 ﬁrmy Microsoft oraz natywnego dla niego zestawu deweloperskiego Kinect 2.0 for Windows SDK. Oczekiwanym efektem jest stworzenie prototypu, który implementował będzie strefy instrumentu, z którymi kolizja dłoni generować będzie odpowiedni dźwięk. Dźwięk ten ma być generowany bez zauważalnego opóźnienia.
